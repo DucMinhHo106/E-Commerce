@@ -5,15 +5,15 @@
 
 const CartPage = (() => {
 
-    function render() {
-        const items = Cart.getItems();
-        const container = document.getElementById('cartItems');
-        const subEl = document.getElementById('summarySubtotal');
-        const totEl = document.getElementById('summaryTotal');
-        if (!container) return;
+  function render() {
+    const items = Cart.getItems();
+    const container = document.getElementById('cartItems');
+    const subEl = document.getElementById('summarySubtotal');
+    const totEl = document.getElementById('summaryTotal');
+    if (!container) return;
 
-        if (!items.length) {
-            container.innerHTML = `
+    if (!items.length) {
+      container.innerHTML = `
         <div class="empty-cart">
           <div class="empty-cart-icon">
             <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
@@ -26,17 +26,17 @@ const CartPage = (() => {
           <p>Hãy thêm sản phẩm vào giỏ hàng của bạn</p>
           <button class="btn btn-primary-lg" onclick="Router.go('products')">Tiếp tục mua sắm</button>
         </div>`;
-            if (subEl) subEl.textContent = fmt(0);
-            if (totEl) totEl.textContent = fmt(0);
-            // Remove old subtotal row
-            document.getElementById('cartSubtotalRow') ?.remove();
-            return;
-        }
+      if (subEl) subEl.textContent = fmt(0);
+      if (totEl) totEl.textContent = fmt(0);
+      
+      document.getElementById('cartSubtotalRow') ?.remove();
+      return;
+    }
 
-        container.innerHTML = items.map(item => {
-            const p = PRODUCTS.find(x => x.id === item.id);
-            if (!p) return '';
-            return `
+    container.innerHTML = items.map(item => {
+      const p = PRODUCTS.find(x => x.id === item.id);
+      if (!p) return '';
+      return `
         <div class="cart-item" id="cart-item-${p.id}">
           <img class="cart-item-img"
                src="${p.images[0]}"
@@ -68,56 +68,56 @@ const CartPage = (() => {
             </button>
           </div>
         </div>`;
-        }).join('');
+    }).join('');
 
-        // Subtotal bar
-        const total = Cart.total();
-        if (subEl) subEl.textContent = fmt(total);
-        if (totEl) totEl.textContent = fmt(total);
+    // Subtotal bar
+    const total = Cart.total();
+    if (subEl) subEl.textContent = fmt(total);
+    if (totEl) totEl.textContent = fmt(total);
 
-        // Inline subtotal row
-        let subRow = document.getElementById('cartSubtotalRow');
-        if (!subRow) {
-            subRow = document.createElement('div');
-            subRow.id = 'cartSubtotalRow';
-            subRow.className = 'cart-subtotal-row';
-            container.after(subRow);
-        }
-        subRow.innerHTML = `<span>Tạm tính:</span><strong>${fmt(total)}</strong>`;
+    // Inline subtotal row
+    let subRow = document.getElementById('cartSubtotalRow');
+    if (!subRow) {
+      subRow = document.createElement('div');
+      subRow.id = 'cartSubtotalRow';
+      subRow.className = 'cart-subtotal-row';
+      container.after(subRow);
     }
+    subRow.innerHTML = `<span>Tạm tính:</span><strong>${fmt(total)}</strong>`;
+  }
 
-    function changeQty(id, delta) {
-        const inp = document.getElementById(`cqty-${id}`);
-        if (!inp) return;
+  function changeQty(id, delta) {
+    const inp = document.getElementById(`cqty-${id}`);
+    if (!inp) return;
 
-        const newVal = Math.max(1, parseInt(inp ?.value || 1) + delta);
-        Cart.setQty(id, newVal);
+    const newVal = Math.max(1, parseInt(inp ?.value || 1) + delta);
+    Cart.setQty(id, newVal);
+    render();
+  }
+
+  function removeItem(id) {
+    const el = document.getElementById(`cart-item-${id}`);
+
+    if (el) {
+      el.style.opacity = '0';
+      setTimeout(() => {
+        Cart.remove(id);
         render();
+      }, 200);
+    } else {
+      Cart.remove(id);
+      render();
     }
+  }
 
-    function removeItem(id) {
-        const el = document.getElementById(`cart-item-${id}`);
+  function enter() {
+    render();
+  }
 
-        if (el) {
-            el.style.opacity = '0';
-            setTimeout(() => {
-                Cart.remove(id);
-                render();
-            }, 200);
-        } else {
-            Cart.remove(id);
-            render();
-        }
-    }
-
-    function enter() {
-        render();
-    }
-
-    return {
-        enter,
-        render,
-        changeQty,
-        removeItem
-    };
+  return {
+    enter,
+    render,
+    changeQty,
+    removeItem
+  };
 })();

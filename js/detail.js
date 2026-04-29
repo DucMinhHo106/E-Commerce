@@ -39,8 +39,8 @@ const DetailPage = (() => {
       </div>`).join('');
 
         // Arrow clicks
-        document.getElementById('galleryPrev') ?.addEventListener('click', () => _slideGallery(-1, images));
-        document.getElementById('galleryNext') ?.addEventListener('click', () => _slideGallery(1, images));
+        document.getElementById('galleryPrev')?.addEventListener('click', () => _slideGallery(-1, images));
+        document.getElementById('galleryNext')?.addEventListener('click', () => _slideGallery(1, images));
 
         // Thumb clicks
         thumbs.querySelectorAll('.gallery-thumb').forEach(th => {
@@ -48,7 +48,7 @@ const DetailPage = (() => {
         });
 
         // Dot clicks
-        document.getElementById('galleryDots') ?.querySelectorAll('.gallery-dot').forEach(dot => {
+        document.getElementById('galleryDots')?.querySelectorAll('.gallery-dot').forEach(dot => {
             dot.addEventListener('click', () => _setSlide(parseInt(dot.dataset.idx), images));
         });
 
@@ -151,20 +151,22 @@ const DetailPage = (() => {
         }
 
         // Wire up buttons
-        document.getElementById('detailAddBtn') ?.addEventListener('click', () => {
-            const qty = parseInt(document.getElementById('detailQty') ?.value || 1);
-            Cart.add(p.id, qty);
-        }, {
-            once: false
-        });
+        const addBtn = document.getElementById('detailAddBtn');
+        if (addBtn) {
+            addBtn.onclick = () => {
+                const qty = parseInt(document.getElementById('detailQty')?.value || 1);
+                Cart.add(p.id, qty);
+            };
+        }
 
-        document.getElementById('detailBuyBtn') ?.addEventListener('click', () => {
-            const qty = parseInt(document.getElementById('detailQty') ?.value || 1);
-            Cart.add(p.id, qty);
-            Router.go('checkout');
-        }, {
-            once: false
-        });
+        const buyBtn = document.getElementById('detailBuyBtn');
+        if (buyBtn) {
+            buyBtn.onclick = () => {
+                const qty = parseInt(document.getElementById('detailQty')?.value || 1);
+                Cart.add(p.id, qty);
+                Router.go('checkout');
+            };
+        }
     }
 
     function enter(params = {}) {
@@ -180,8 +182,8 @@ const DetailPage = (() => {
 
     function init() {
         // Qty buttons (static in HTML)
-        document.getElementById('detailQtyMinus') ?.addEventListener('click', () => _changeQty(-1));
-        document.getElementById('detailQtyPlus') ?.addEventListener('click', () => _changeQty(1));
+        document.getElementById('detailQtyMinus')?.addEventListener('click', () => _changeQty(-1));
+        document.getElementById('detailQtyPlus')?.addEventListener('click', () => _changeQty(1));
     }
 
     return {
