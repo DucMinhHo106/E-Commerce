@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Điện Máy – Uy tín · Chất lượng</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS Modules -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/buttons.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/products.css" />
+  <link rel="stylesheet" href="css/detail.css" />
+  <link rel="stylesheet" href="css/cart.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+     TOAST NOTIFICATION
+════════════════════════════════════════ -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">✓</span>
+    <span id="toastMsg"></span>
+  </div>
+
+  <!-- ══════════════════════════════════════
+     HEADER
+════════════════════════════════════════ -->
+  <header class="header" id="siteHeader">
+    <div class="container header-inner">
+
+      <!-- Logo -->
+      <a class="logo" onclick="Router.go('home')">
+        <div class="logo-icon">DM</div>
+        <div class="logo-text">
+          <span class="logo-name">Điện Máy</span>
+          <span class="logo-sub">Uy tín · Chất lượng</span>
+        </div>
+      </a>
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <input class="search-input" type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." />
+        <button class="search-btn" id="searchBtn" aria-label="Tìm kiếm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Right actions -->
+      <div class="header-right">
+        <!-- Cart -->
+        <button class="cart-btn" onclick="Router.go('cart')" aria-label="Giỏ hàng">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
+          </svg>
+          <span class="cart-count" id="cartCount" style="display:none">0</span>
+        </button>
+
+        <!-- Mobile hamburger -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+     DESKTOP NAV
+════════════════════════════════════════ -->
+  <nav class="nav-bar">
+    <div class="container nav-inner">
+      <a class="nav-link" onclick="Router.go('products',{cat:'Tất cả'})">Sản phẩm</a>
+      <a class="nav-link" onclick="Router.go('products',{cat:'Máy Lạnh'})">Máy Lạnh</a>
+      <a class="nav-link" onclick="Router.go('products',{cat:'Tủ Lạnh'})">Tủ Lạnh</a>
+      <a class="nav-link" onclick="Router.go('products',{cat:'Máy Giặt'})">Máy Giặt</a>
+      <a class="nav-link" onclick="Router.go('products',{cat:'Tivi'})">Tivi</a>
+      <a class="nav-link" onclick="Router.go('products',{cat:'Lò Vi Sóng'})">Lò Vi Sóng</a>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+     MOBILE MENU OVERLAY
+════════════════════════════════════════ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-panel">
+      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Đóng">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <a class="mobile-nav-link"
+        onclick="Router.go('home');document.getElementById('mobileMenu').classList.remove('open')">🏠 Trang chủ</a>
+      <a class="mobile-nav-link"
+        onclick="Router.go('products',{cat:'Máy Lạnh'});document.getElementById('mobileMenu').classList.remove('open')">❄️
+        Máy Lạnh</a>
+      <a class="mobile-nav-link"
+        onclick="Router.go('products',{cat:'Tủ Lạnh'});document.getElementById('mobileMenu').classList.remove('open')">🧊
+        Tủ Lạnh</a>
+      <a class="mobile-nav-link"
+        onclick="Router.go('products',{cat:'Máy Giặt'});document.getElementById('mobileMenu').classList.remove('open')">🫧
+        Máy Giặt</a>
+      <a class="mobile-nav-link"
+        onclick="Router.go('products',{cat:'Tivi'});document.getElementById('mobileMenu').classList.remove('open')">📺
+        Tivi</a>
+      <a class="mobile-nav-link"
+        onclick="Router.go('products',{cat:'Lò Vi Sóng'});document.getElementById('mobileMenu').classList.remove('open')">📡
+        Lò Vi Sóng</a>
+      <a class="mobile-nav-link"
+        onclick="Router.go('cart');document.getElementById('mobileMenu').classList.remove('open')">🛒 Giỏ hàng</a>
+    </div>
+    <!-- Click outside to close -->
+    <div style="flex:1" onclick="document.getElementById('mobileMenu').classList.remove('open')"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════ -->
+  <main class="page" id="page-home">
+
+    <!-- Hero -->
+    <section class="hero">
+      <!-- Background image panel (right side, fades left→right) -->
+      <div class="hero-img-panel">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=85" alt="Điện Máy Chính Hãng" />
+      </div>
+
+      <!-- Text content (left aligned) -->
+      <div class="container" style="margin-left: 80px;">
+        <div class="hero-content">
+          <p class="hero-eyebrow">✦ Chính Hãng – Giá Tốt Nhất Thị Trường</p>
+          <h1 class="hero-title">
+            Điện Máy
+            <em>Chính Hãng</em>
+          </h1>
+          <p class="hero-sub">Giá tốt nhất · Lắp đặt miễn phí · Bảo hành uy tín</p>
+          <button class="btn btn-hero" onclick="Router.go('products')">
+            Xem sản phẩm <span>›</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust badges -->
+    <section class="trust-section">
+      <div class="container">
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="trust-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="3" width="15" height="13" />
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+            </div>
+            <strong>Miễn Phí Vận Chuyển</strong>
+            <span>Giao hàng toàn quốc</span>
+          </div>
+          <div class="trust-card">
+            <div class="trust-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <strong>Bảo Hành Chính Hãng</strong>
+            <span>Lên đến 10 năm</span>
+          </div>
+          <div class="trust-card">
+            <div class="trust-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                <path d="M4.93 4.93a10 10 0 0 0 0 14.14" />
+              </svg>
+            </div>
+            <strong>Lắp Đặt Chuyên Nghiệp</strong>
+            <span>Đội ngũ kỹ thuật giàu kinh nghiệm</span>
+          </div>
+          <div class="trust-card">
+            <div class="trust-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="1 4 1 10 7 10" />
+                <path d="M3.51 15a9 9 0 1 0 .49-3.31" />
+              </svg>
+            </div>
+            <strong>Đổi Trả Dễ Dàng</strong>
+            <span>Trong vòng 7 ngày</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="section-block">
+      <div class="container">
+        <h2 class="section-title">Danh Mục Sản Phẩm</h2>
+        <div class="cat-grid" id="catGrid"></div>
+      </div>
+    </section>
+
+    <!-- Featured products -->
+    <section class="section-block bg-white">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Sản Phẩm Nổi Bật</h2>
+          <a class="see-all" onclick="Router.go('products')">Xem tất cả ›</a>
+        </div>
+        <div class="product-grid" id="featuredGrid"></div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="container">
+        <h2 class="cta-title">Cần tư vấn sản phẩm?</h2>
+        <p class="cta-sub">Gọi ngay hotline: <strong>1900-xxxx</strong> để được hỗ trợ miễn phí</p>
+        <a href="tel:1900xxxx" class="btn btn-cta-white">Gọi ngay</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="logo-icon sm">DM</div>
+            <div class="logo-text">
+              <span class="logo-name">Điện Máy</span>
+              <span class="logo-sub">Uy tín · Chất lượng</span>
+            </div>
+          </div>
+          <p>Chuyên cung cấp thiết bị điện máy gia dụng chính hãng, giá tốt nhất thị trường.</p>
+          <div class="social-row">
+            <a class="social-icon fb" href="#" aria-label="Facebook">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </svg>
+            </a>
+            <a class="social-icon yt" href="#" aria-label="YouTube">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
+                <polygon fill="#1e3a6e" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Hỗ trợ khách hàng</h4>
+          <a href="#">Chính sách bảo hành</a>
+          <a href="#">Chính sách đổi trả</a>
+          <a href="#">Hướng dẫn mua hàng</a>
+          <a href="#">Phương thức thanh toán</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Dịch vụ</h4>
+          <a href="#">Lắp đặt miễn phí</a>
+          <a href="#">Bảo trì định kỳ</a>
+          <a href="#">Vệ sinh máy lạnh</a>
+          <a href="#">Sửa chữa điện lạnh</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Liên hệ</h4>
+          <span class="footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.61 4.52 2 2 0 0 1 3.58 2.34h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.08 6.08l1.71-1.71a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z" />
+            </svg>
+            1900-xxxx
+          </span>
+          <span class="footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            contact@dienmay.vn
+          </span>
+          <span class="footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            123 Nguyễn Văn Linh, Q.7, TP.HCM
+          </span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">© 2026 Điện Máy. All rights reserved.</div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ══════════════════════════════════════
+     PAGE: PRODUCTS
+════════════════════════════════════════ -->
+  <main class="page" id="page-products">
+    <div class="container products-layout">
+
+      <!-- Sidebar filter -->
+      <aside>
+        <div class="sidebar-card">
+          <div class="sidebar-head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="4" y1="6" x2="20" y2="6" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+              <line x1="10" y1="18" x2="14" y2="18" />
+            </svg>
+            Bộ lọc
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-label">Danh mục</div>
+            <label class="radio-opt active" data-cat="Tất cả">
+              <span class="radio-dot active"></span> Tất cả
+            </label>
+            <label class="radio-opt" data-cat="Máy Lạnh">
+              <span class="radio-dot"></span> Máy Lạnh
+            </label>
+            <label class="radio-opt" data-cat="Tủ Lạnh">
+              <span class="radio-dot"></span> Tủ Lạnh
+            </label>
+            <label class="radio-opt" data-cat="Máy Giặt">
+              <span class="radio-dot"></span> Máy Giặt
+            </label>
+            <label class="radio-opt" data-cat="Tivi">
+              <span class="radio-dot"></span> Tivi
+            </label>
+            <label class="radio-opt" data-cat="Lò Vi Sóng">
+              <span class="radio-dot"></span> Lò Vi Sóng
+            </label>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-label">Khoảng giá</div>
+            <label class="radio-opt active" data-price="all">
+              <span class="radio-dot active"></span> Tất cả
+            </label>
+            <label class="radio-opt" data-price="under5">
+              <span class="radio-dot"></span> Dưới 5 triệu
+            </label>
+            <label class="radio-opt" data-price="5to10">
+              <span class="radio-dot"></span> 5 – 10 triệu
+            </label>
+            <label class="radio-opt" data-price="10to20">
+              <span class="radio-dot"></span> 10 – 20 triệu
+            </label>
+            <label class="radio-opt" data-price="above20">
+              <span class="radio-dot"></span> Trên 20 triệu
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Product list main -->
+      <section>
+        <div class="products-top">
+          <div>
+            <div class="products-title" id="productsTitle">Sản Phẩm</div>
+            <div class="products-count" id="productsCount"></div>
+          </div>
+          <div class="sort-wrap">
+            <span class="sort-label">Sắp xếp theo:</span>
+            <select class="sort-select" id="sortSelect">
+              <option value="default">Mặc định</option>
+              <option value="price-asc">Giá tăng dần</option>
+              <option value="price-desc">Giá giảm dần</option>
+              <option value="name-asc">Tên A–Z</option>
+            </select>
+          </div>
+        </div>
+        <div class="product-grid cols-3" id="productListGrid"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════════
+     PAGE: PRODUCT DETAIL
+════════════════════════════════════════ -->
+  <main class="page" id="page-detail">
+    <div class="container">
+      <nav class="breadcrumb" id="detailBreadcrumb"></nav>
+
+      <div class="detail-layout">
+        <!-- Gallery column -->
+        <div class="gallery-col">
+          <div id="galleryMain"></div>
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
+        </div>
+
+        <!-- Info column -->
+        <div class="detail-info">
+          <h1 class="detail-name" id="detailName"></h1>
+
+          <div class="detail-rating" id="detailRating"></div>
+
+          <div class="detail-price-row">
+            <span class="detail-price" id="detailPrice"></span>
+            <span class="detail-badge" id="detailBadge"></span>
+          </div>
+          <span class="detail-old-price" id="detailOldPrice"></span>
+
+          <p class="detail-desc" id="detailDesc"></p>
+
+          <hr class="detail-divider" />
+
+          <div class="detail-qty-row">
+            <span class="qty-label">Số lượng:</span>
+            <div class="qty-ctrl">
+              <button class="qty-btn" id="detailQtyMinus">−</button>
+              <input class="qty-input" id="detailQty" type="number" value="1" min="1" readonly />
+              <button class="qty-btn" id="detailQtyPlus">+</button>
+            </div>
+          </div>
+
+          <div class="detail-actions">
+            <button class="btn btn-detail-add" id="detailAddBtn">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+              Thêm vào giỏ
+            </button>
+            <button class="btn btn-detail-buy" id="detailBuyBtn">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                <line x1="1" y1="10" x2="23" y2="10" />
+              </svg>
+              Mua ngay
+            </button>
+          </div>
+
+          <div class="detail-trust-row">
+            <div class="detail-trust-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="3" width="15" height="13" />
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+              <div>
+                <strong>Giao hàng miễn phí</strong>
+                <span>Toàn quốc</span>
+              </div>
+            </div>
+            <div class="detail-trust-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              <div>
+                <strong>Bảo hành chính hãng</strong>
+                <span>Uy tín toàn quốc</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specs -->
+      <div class="spec-box" id="specBox"></div>
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════════
+     PAGE: CART
+════════════════════════════════════════ -->
+  <main class="page" id="page-cart">
+    <div class="container cart-layout">
+      <div class="cart-main">
+        <h1 class="page-title">Giỏ Hàng</h1>
+        <div id="cartItems"></div>
+      </div>
+
+      <aside class="cart-aside">
+        <div class="order-summary-card">
+          <h3>Tổng đơn hàng</h3>
+          <div class="summary-row">
+            <span>Tạm tính:</span>
+            <span id="summarySubtotal">0 đ</span>
+          </div>
+          <div class="summary-row">
+            <span>Phí vận chuyển:</span>
+            <span class="free-ship">Miễn phí</span>
+          </div>
+          <hr />
+          <div class="summary-total-row">
+            <span>Tổng cộng:</span>
+            <span class="summary-total" id="summaryTotal">0 đ</span>
+          </div>
+          <button class="btn btn-checkout-main" onclick="Router.go('checkout')">
+            Tiến hành thanh toán ›
+          </button>
+          <button class="btn btn-checkout-outline" onclick="Router.go('products')">
+            Tiếp tục mua sắm
+          </button>
+          <div class="perks-box">
+            <strong>Ưu đãi của bạn</strong>
+            <p>✓ Miễn phí vận chuyển</p>
+            <p>✓ Lắp đặt miễn phí</p>
+            <p>✓ Bảo hành chính hãng</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════════
+     PAGE: CHECKOUT
+════════════════════════════════════════ -->
+  <main class="page" id="page-checkout">
+    <div class="container checkout-layout">
+
+      <!-- Form -->
+      <div>
+        <h1 class="page-title">Thanh Toán</h1>
+        <div class="form-card">
+          <h2 class="form-section-title">Thông tin khách hàng</h2>
+
+          <div class="form-group">
+            <label class="form-label">Họ và tên <span class="required">*</span></label>
+            <input class="form-input" id="cfName" type="text" placeholder="Nguyễn Văn A" />
+            <span class="form-error" id="cfNameErr"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Số điện thoại <span class="required">*</span></label>
+            <input class="form-input" id="cfPhone" type="tel" placeholder="0912 345 678" />
+            <span class="form-error" id="cfPhoneErr"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email (không bắt buộc)</label>
+            <input class="form-input" id="cfEmail" type="email" placeholder="example@email.com" />
+            <span class="form-error" id="cfEmailErr"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Địa chỉ giao hàng <span class="required">*</span></label>
+            <textarea class="form-input form-textarea" id="cfAddr"
+              placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố"></textarea>
+            <span class="form-error" id="cfAddrErr"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ghi chú (không bắt buộc)</label>
+            <textarea class="form-input form-textarea" id="cfNote"
+              placeholder="Ghi chú đơn hàng (thời gian giao hàng, địa chỉ cụ thể...)"></textarea>
+          </div>
+
+          <hr class="form-divider" />
+
+          <h2 class="form-section-title">Phương thức thanh toán</h2>
+          <div class="payment-option">
+            <strong>Thanh toán khi nhận hàng (COD)</strong>
+            <span>Quý khách vui lòng thanh toán khi nhận hàng</span>
+          </div>
+
+          <button class="btn btn-confirm" id="confirmBtn" onclick="CheckoutPage.submit()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Xác nhận đặt hàng
+          </button>
+        </div>
+      </div>
+
+      <!-- Order aside -->
+      <aside class="checkout-aside">
+        <div class="order-summary-card">
+          <h3>Đơn hàng của bạn</h3>
+          <div id="checkoutItems"></div>
+          <hr />
+          <div class="summary-row">
+            <span>Tạm tính:</span>
+            <span id="checkoutSubtotal">0 đ</span>
+          </div>
+          <div class="summary-row">
+            <span>Phí vận chuyển:</span>
+            <span class="free-ship">Miễn phí</span>
+          </div>
+          <hr />
+          <div class="summary-total-row">
+            <span>Tổng cộng:</span>
+            <span class="summary-total" id="checkoutTotal">0 đ</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════════
+     PAGE: SUCCESS
+════════════════════════════════════════ -->
+  <main class="page" id="page-success">
+    <div class="success-wrap">
+      <div class="success-card">
+        <div class="success-icon">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <h1 class="success-title">Đặt hàng thành công!</h1>
+        <p class="success-sub">
+          Cảm ơn bạn đã mua hàng. Chúng tôi sẽ liên hệ với bạn trong
+          thời gian sớm nhất để xác nhận đơn hàng.
+        </p>
+        <div class="perks-box">
+          <strong>Thông tin đơn hàng</strong>
+          <p>● Đơn hàng của bạn đang được xử lý</p>
+          <p>● Chúng tôi sẽ gọi điện xác nhận trong vòng 24 giờ</p>
+          <p>● Thời gian giao hàng dự kiến: 2–3 ngày làm việc</p>
+          <p>● Lắp đặt miễn phí tại địa chỉ của bạn</p>
+        </div>
+        <div class="success-actions">
+          <button class="btn btn-success-home" onclick="Router.go('home')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+            Về trang chủ
+          </button>
+          <button class="btn btn-success-continue" onclick="Router.go('products')">
+            Tiếp tục mua sắm
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════════
+     SCRIPTS (order matters)
+════════════════════════════════════════ -->
+  <script src="data/products.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/detail.js"></script>
+  <script src="js/cartpage.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
