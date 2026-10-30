@@ -144,34 +144,3 @@ const ProductsPage = (() => {
         setCat
     };
 })();
-
-document.querySelectorAll('.radio-opt').forEach(item => {
-    item.addEventListener('click', () => {
-
-        const group = item.parentElement;
-
-        // remove active tất cả trong group
-        group.querySelectorAll('.radio-opt').forEach(el => {
-            el.classList.remove('active');
-            el.querySelector('.radio-dot') ?.classList.remove('active');
-        });
-
-        // add active cho cái click
-        item.classList.add('active');
-        item.querySelector('.radio-dot') ?.classList.add('active');
-
-        // lấy data
-        const cat = item.dataset.cat;
-        const price = item.dataset.price;
-
-        if (cat) {
-            ProductsPage.setCat(cat);
-        }
-
-        if (price) {
-            ProductsPage.setPrice(price);
-        }
-
-        ProductsPage.render();
-    });
-});

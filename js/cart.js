@@ -54,6 +54,11 @@ const Cart = (() => {
         return [...items];
     }
 
+    function clear() {
+        items = [];
+        save();
+    }
+
     function total() {
         load();
         return items.reduce((sum, item) => {
@@ -71,6 +76,7 @@ const Cart = (() => {
         add,
         remove,
         setQty,
+        clear,
         total,
         getItems
     };
